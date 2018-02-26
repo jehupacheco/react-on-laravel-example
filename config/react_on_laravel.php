@@ -2,5 +2,5 @@
 
 return [
   'default_rendering' => 'both',
-  'server_bundle' => public_path('js/app.js'),
+  'server_bundle' => public_path('js/server.js'),
 ];

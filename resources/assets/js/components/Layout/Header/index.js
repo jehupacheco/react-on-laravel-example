@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
 import Item from 'components/Layout/Header/Item';
 import { totalAmountSelector } from '~redux/modules/cart';
 import colors, { colorLuminance } from 'utils/styles/color';
@@ -55,7 +54,7 @@ const Header = ({ totalAmount }) => (
         Total: ${totalAmount}
       </Item>
       <Item noHover>
-        <FontAwesomeIcon icon={faShoppingCart} />
+        <FontAwesomeIcon icon="shopping-cart" />
       </Item>
     </Right>
   </Container>

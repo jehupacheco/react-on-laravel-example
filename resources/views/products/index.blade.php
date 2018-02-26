@@ -1,5 +1,13 @@
 @extends('base')
 
+@php
+    $app = ReactRenderer::reactRenderComponentArray('products.index', ['props' => ['products' => $products]]);
+@endphp
+
+@section('extra-css')
+    {!! $app['componentCss'] !!}
+@endsection
+
 @section('content')
-    {!! @reactComponent('products.index', ['props' => ['products' => $products]]) !!}
+    {!! $app['componentHtml'] !!}
 @endsection

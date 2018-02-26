@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::all()->take(10);
 
         $products->each(function($product) {
             $product->images = json_decode($product->images);

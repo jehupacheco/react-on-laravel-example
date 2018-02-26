@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3dd30b4621fa97e724dafb6c9bc7df7",
+    "content-hash": "d825f79292e473f50129b7abcb5a6619",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2208,16 +2208,16 @@
         },
         {
             "name": "tektonlabs/react-on-laravel",
-            "version": "dev-master",
+            "version": "dev-add-facade",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tektonlabs/react-on-laravel.git",
-                "reference": "b2e5f2d1e62edb655c478f92f062c362bf398e0e"
+                "reference": "d94103a8ae5a5480234cf80b1a5c77c559fb0e6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tektonlabs/react-on-laravel/zipball/b2e5f2d1e62edb655c478f92f062c362bf398e0e",
-                "reference": "b2e5f2d1e62edb655c478f92f062c362bf398e0e",
+                "url": "https://api.github.com/repos/tektonlabs/react-on-laravel/zipball/d94103a8ae5a5480234cf80b1a5c77c559fb0e6f",
+                "reference": "d94103a8ae5a5480234cf80b1a5c77c559fb0e6f",
                 "shasum": ""
             },
             "require": {
@@ -2230,7 +2230,10 @@
                 "laravel": {
                     "providers": [
                         "TektonLabs\\ReactOnLaravel\\ReactOnLaravelServiceProvider"
-                    ]
+                    ],
+                    "aliases": {
+                        "ReactRenderer": "TektonLabs\\ReactOnLaravel\\Facades\\ReactRenderer"
+                    }
                 }
             },
             "autoload": {
@@ -2245,10 +2248,10 @@
                 "ssr"
             ],
             "support": {
-                "source": "https://github.com/tektonlabs/react-on-laravel/tree/master",
+                "source": "https://github.com/tektonlabs/react-on-laravel/tree/add-facade",
                 "issues": "https://github.com/tektonlabs/react-on-laravel/issues"
             },
-            "time": "2018-02-22T15:43:31+00:00"
+            "time": "2018-02-26T15:07:00+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -3367,16 +3370,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.0.1",
+            "version": "7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "316555dbd0ed4097bbdd17c65ab416bf27a472e9"
+                "reference": "e2f8aa21bc54b6ba218bdd4f9e0dac1e9bc3b4e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/316555dbd0ed4097bbdd17c65ab416bf27a472e9",
-                "reference": "316555dbd0ed4097bbdd17c65ab416bf27a472e9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e2f8aa21bc54b6ba218bdd4f9e0dac1e9bc3b4e9",
+                "reference": "e2f8aa21bc54b6ba218bdd4f9e0dac1e9bc3b4e9",
                 "shasum": ""
             },
             "require": {
@@ -3443,7 +3446,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-02-13T06:08:08+00:00"
+            "time": "2018-02-26T07:03:12+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

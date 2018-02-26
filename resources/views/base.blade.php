@@ -7,9 +7,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Laravel</title>
         <link href="{{mix('css/app.css')}}" rel="stylesheet" type="text/css">
+        @yield('extra-css')
     </head>
     <body>
         @yield('content')
         <script src="{{mix('js/app.js')}}"></script>
+        @yield('extra-js')
     </body>
 </html>
