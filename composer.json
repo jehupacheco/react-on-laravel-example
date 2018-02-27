@@ -10,7 +10,7 @@
         "gloudemans/shoppingcart": "^2.5",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "~1.0",
-        "tektonlabs/react-on-laravel": "dev-add-facade"
+        "tektonlabs/react-on-laravel": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
