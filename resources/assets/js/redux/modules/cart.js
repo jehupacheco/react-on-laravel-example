@@ -32,7 +32,7 @@ export const selectProduct = index => async (dispatch) => {
       },
     });
   } catch (error) {
-    return console.log(error);
+    return error;
   }
 };
 
