@@ -36,12 +36,24 @@ export const selectProduct = index => async (dispatch) => {
   }
 };
 
-export const unselectProduct = index => ({
-  type: UNSELECT_PRODUCT,
-  payload: {
-    index: `${index}`,
-  },
-});
+export const unselectProduct = (index, rowId) => async (dispatch) => {
+  try {
+    await axios.post('/cart/removeProduct', {
+      id: index,
+      rowId,
+    });
+
+    return dispatch({
+      type: UNSELECT_PRODUCT,
+      payload: {
+        index: `${index}`,
+        rowId: `${rowId}`,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};
 
 export default function cartReducer(state = OrderedMap({}), { type, payload }) {
   switch (type) {
