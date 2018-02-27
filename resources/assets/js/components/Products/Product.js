@@ -33,8 +33,12 @@ const Description = styled.div`
   padding: 20px;
 `;
 
-const ActionButton = styled(Button)`
-  margin: 0 20px 20px 0;
+const Bottom = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100%;
 `;
 
 const Product = ({ product, select, unselect }) => (
@@ -50,9 +54,12 @@ const Product = ({ product, select, unselect }) => (
         {product.description}
       </Description>
     </div>
-    <ActionButton color={colors.grey} onClick={product.selected ? unselect : select}>
-      {product.selected ? 'Remove me' : 'Add me'}
-    </ActionButton>
+    <Bottom>
+      <span>$ {product.price}</span>
+      <Button color={colors.grey} onClick={product.selected ? unselect : select}>
+        {product.selected ? 'Remove me' : 'Add me'}
+      </Button>
+    </Bottom>
   </Container>
 );
 
