@@ -18,4 +18,15 @@ class CartController extends Controller
 
         return json_encode(\Cart::content());
     }
+
+    public function removeProduct(Request $request)
+    {
+        $request->validate([
+            'rowId' => 'required',
+        ]);
+
+        \Cart::remove($request->input('rowId'));
+
+        return json_encode(\Cart::content());
+    }
 }
