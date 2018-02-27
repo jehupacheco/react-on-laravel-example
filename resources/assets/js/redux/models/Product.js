@@ -7,6 +7,7 @@ const Product = new Record({
   price: 0,
   images: [],
   selected: false,
+  rowId: '',
 });
 
 export default Product;

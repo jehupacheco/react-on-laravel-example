@@ -55,7 +55,7 @@ const Product = ({ product, select, unselect }) => (
       </Description>
     </div>
     <Bottom>
-      <span>$ {product.price}</span>
+      <span>${product.price}</span>
       <Button color={colors.grey} onClick={product.selected ? unselect : select}>
         {product.selected ? 'Remove me' : 'Add me'}
       </Button>

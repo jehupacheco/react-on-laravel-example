@@ -1,23 +1,40 @@
 import { OrderedMap } from 'immutable';
 import Product from '~redux/models/Product';
 import { createSelector } from 'reselect';
+import axios from 'utils/axios';
 
-export const parseInitialState = products => (
-  OrderedMap(products.reduce((acc, product) => ({
+export const parseInitialState = (products, cart) => {
+  const productsMap = OrderedMap(products.reduce((acc, product) => ({
     ...acc,
     [product.id]: new Product(product),
-  }), {}))
-);
+  }), {}));
+
+  return Object.keys(cart).reduce((updatedProducts, rowId) => (
+    updatedProducts.update(`${cart[rowId].id}`, product => (
+      product.set('rowId', rowId).set('selected', true)
+    ))
+  ), productsMap);
+};
 
 const SELECT_PRODUCT = 'playground/cart/SELECT_PRODUCT';
 const UNSELECT_PRODUCT = 'playground/cart/UNSELECT_PRODUCT';
 
-export const selectProduct = index => ({
-  type: SELECT_PRODUCT,
-  payload: {
-    index: `${index}`,
-  },
-});
+export const selectProduct = index => async (dispatch) => {
+  try {
+    await axios.post('/cart/addProduct', {
+      id: index,
+    });
+
+    return dispatch({
+      type: SELECT_PRODUCT,
+      payload: {
+        index: `${index}`,
+      },
+    });
+  } catch (error) {
+    return console.log(error);
+  }
+};
 
 export const unselectProduct = index => ({
   type: UNSELECT_PRODUCT,
