@@ -1,15 +1,37 @@
+import React from 'react';
 import ReactOnRails from 'react-on-rails';
+import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 import fontawesome from '@fortawesome/fontawesome';
 import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
+
+fontawesome.library.add(faShoppingCart);
 
 const dynamicRequire = (rawPaths, keyGenerator, filter = (() => true)) => (
   rawPaths.keys()
     .map(key => key.split('/'))
     .filter(filter)
-    .reduce((cmps, split) => ({
-      ...cmps,
-      [keyGenerator(split)]: rawPaths(split.join('/')).server || rawPaths(split.join('/')).default,
-    }), {})
+    .reduce((cmps, split) => {
+      const Cmp = rawPaths(split.join('/')).default;
+
+      return ({
+        ...cmps,
+        [keyGenerator(split)]: (props) => {
+          const sheet = new ServerStyleSheet();
+
+          return ({
+            renderedHtml: {
+              componentHtml: renderToString(
+                <StyleSheetManager sheet={sheet.instance}>
+                  <Cmp {...props} />
+                </StyleSheetManager>,
+              ),
+              componentCss: sheet.getStyleTags(),
+            },
+          });
+        },
+      });
+    }, {})
 );
 
 const transformSplit = (split) => {
@@ -22,8 +44,6 @@ const transformSplit = (split) => {
       .join('.')
   );
 };
-
-fontawesome.library.add(faShoppingCart);
 
 ReactOnRails.register({
   ...dynamicRequire(

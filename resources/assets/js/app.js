@@ -2,6 +2,8 @@ import ReactOnRails from 'react-on-rails';
 import fontawesome from '@fortawesome/fontawesome';
 import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
 
+fontawesome.library.add(faShoppingCart);
+
 const dynamicRequire = (rawPaths, keyGenerator, filter = (() => true)) => (
   rawPaths.keys()
     .map(key => key.split('/'))
@@ -22,8 +24,6 @@ const transformSplit = (split) => {
       .join('.')
   );
 };
-
-fontawesome.library.add(faShoppingCart);
 
 ReactOnRails.register({
   ...dynamicRequire(
