@@ -14,10 +14,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all()->take(10);
-
-        $products->each(function($product) {
+        $products = Product::paginate(10)->map(function($product) {
             $product->images = json_decode($product->images);
+
+            return $product;
         });
 
         return view('products.index', compact('products'));
@@ -30,6 +30,12 @@ class ProductController extends Controller
      */
     public function list()
     {
-        return Product::paginate(10);
+        $products = Product::paginate(10);
+
+        $products->each(function($product) {
+            $product->images = json_decode($product->images);
+        });
+
+        return $products;
     }
 }
