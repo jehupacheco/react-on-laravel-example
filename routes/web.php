@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'ProductController@index');
+Route::get('/product/list', 'ProductController@list');
 
 Route::post('/cart/addProduct', 'CartController@addProduct');
 Route::post('/cart/removeProduct', 'CartController@removeProduct');

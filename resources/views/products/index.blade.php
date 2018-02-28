@@ -2,7 +2,11 @@
 
 @php
     $app = ReactRenderer::reactRenderComponentArray('products.index', [
-        'props' => ['products' => $products, 'cart' => Cart::content()],
+        'props' => [
+            'products' => $products,
+            'cart' => Cart::content(),
+            'total' => Cart::total(),
+        ],
     ]);
 @endphp
 
