@@ -11,7 +11,9 @@ export const parseInitialState = (products, cart) => {
 
   return Object.keys(cart).reduce((updatedProducts, rowId) => (
     updatedProducts.update(`${cart[rowId].id}`, product => (
-      product.set('rowId', rowId).set('selected', true)
+      product
+        ? product.set('rowId', rowId).set('selected', true)
+        : product
     ))
   ), productsMap);
 };
