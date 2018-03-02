@@ -12,7 +12,7 @@ const dynamicRequire = (rawPaths, keyGenerator, filter = (() => true)) => (
     .map(key => key.split('/'))
     .filter(filter)
     .reduce((cmps, split) => {
-      const Cmp = rawPaths(split.join('/')).default;
+      const Cmp = rawPaths(split.join('/')).server || rawPaths(split.join('/')).default;
 
       return ({
         ...cmps,

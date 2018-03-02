@@ -69,6 +69,6 @@ export default connect(
   null,
   (dispatch, props) => ({
     select: () => { dispatch(selectProduct(props.product.id)); },
-    unselect: () => { dispatch(unselectProduct(props.product.id, props.product.rowId)); },
+    unselect: () => { dispatch(unselectProduct(props.product.id)); },
   }),
 )(Product);

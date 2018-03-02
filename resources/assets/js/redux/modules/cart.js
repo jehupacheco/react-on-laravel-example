@@ -20,6 +20,7 @@ export const parseInitialState = (products, cart) => {
 
 const SELECT_PRODUCT = 'playground/cart/SELECT_PRODUCT';
 const UNSELECT_PRODUCT = 'playground/cart/UNSELECT_PRODUCT';
+const UPDATE_PRODUCTS = 'UPDATE_PRODUCTS';
 
 export const selectProduct = index => async (dispatch) => {
   try {
@@ -63,6 +64,11 @@ export default function cartReducer(state = OrderedMap({}), { type, payload }) {
       return state.update(payload.index, product => product.set('selected', true));
     case UNSELECT_PRODUCT:
       return state.update(payload.index, product => product.set('selected', false));
+    case UPDATE_PRODUCTS:
+      console.log(payload.data);
+      console.log(state.toArray());
+
+      return state;
     default:
       return state;
   }
