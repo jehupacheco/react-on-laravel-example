@@ -3,11 +3,13 @@ import Product from '~redux/models/Product';
 import { createSelector } from 'reselect';
 import axios from 'utils/axios';
 
+const getOrderedMapList = arr => OrderedMap(arr.reduce((acc, product) => ({
+  ...acc,
+  [product.id]: new Product(product),
+}), {}));
+
 export const parseInitialState = (products, cart) => {
-  const productsMap = OrderedMap(products.reduce((acc, product) => ({
-    ...acc,
-    [product.id]: new Product(product),
-  }), {}));
+  const productsMap = getOrderedMapList(products);
 
   return Object.keys(cart).reduce((updatedProducts, rowId) => (
     updatedProducts.update(`${cart[rowId].id}`, product => (
@@ -65,10 +67,7 @@ export default function cartReducer(state = OrderedMap({}), { type, payload }) {
     case UNSELECT_PRODUCT:
       return state.update(payload.index, product => product.set('selected', false));
     case UPDATE_PRODUCTS:
-      console.log(payload.data);
-      console.log(state.toArray());
-
-      return state;
+      return getOrderedMapList(payload.data);
     default:
       return state;
   }

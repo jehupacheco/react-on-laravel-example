@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { productsSelector } from '~redux/modules/cart';
-// import { getProducts } from '~redux/modules/products';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { productsSelector } from '~redux/modules/cart';
+import { fetchProducts } from '~redux/modules/products';
 import Product from './Product';
 import Pagination from './Pagination';
 
 const propTypes = {
-  products: ImmutablePropTypes.seq.isRequired,
+  data: ImmutablePropTypes.seq.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string,
   }).isRequired,
@@ -27,22 +26,10 @@ const ProductsContainer = styled.div`
 
 let loadedPage = '1';
 
-const UPDATE_PRODUCTS = 'UPDATE_PRODUCTS';
 
-const fetchProducts = page => (dispatch) => {
-  axios.get(`/product/list?page=${page}`)
-    .then((response) => {
-      dispatch({
-        type: UPDATE_PRODUCTS,
-        payload: {
-          data: response.data.data,
-        },
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+const mapStateToProps = state => ({
+  data: productsSelector(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   fetchData(currentPage) {
@@ -64,17 +51,17 @@ class Products extends Component {
   getPage = query => query.substr(query.indexOf('=') + 1);
 
   render() {
-    const { products, location } = this.props;
+    const { data, location } = this.props;
 
     return (
       <div>
         <h1>Products {this.getPage(location.search)}</h1>
         <ProductsContainer>
-          {products.map(product => (
+          {data.map(product => (
             <Product key={product.id} product={product} />
           ))}
         </ProductsContainer>
-        <Pagination currentPage={this.getPage(location.search)} />
+        <Pagination currentPage={+this.getPage(location.search)} />
       </div>
     );
   }
@@ -82,6 +69,4 @@ class Products extends Component {
 
 Products.propTypes = propTypes;
 
-export default connect(state => ({
-  products: productsSelector(state),
-}), mapDispatchToProps)(Products);
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

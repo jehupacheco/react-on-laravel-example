@@ -1,30 +1,34 @@
+import { OrderedMap } from 'immutable';
+import Product from '~redux/models/Product';
 import axios from 'axios';
 
-export const GET_PRODUCTS = 'GET_PRODUCTS';
+const UPDATE_PRODUCTS = 'UPDATE_PRODUCTS';
 
-export default function productsReducer(state = {}, action = {}) {
-  switch (action.type) {
-    case GET_PRODUCTS:
-      return state;
+const getOrderedMapList = arr => OrderedMap(arr.reduce((acc, product) => ({
+  ...acc,
+  [product.id]: new Product(product),
+}), {}));
+
+export const fetchProducts = page => async (dispatch) => {
+  try {
+    const response = await axios.get(`/product/list?page=${page}`);
+
+    return dispatch({
+      type: UPDATE_PRODUCTS,
+      payload: {
+        data: response.data.data,
+      },
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export default function productsReducer(state = OrderedMap({}), { type, payload }) {
+  switch (type) {
+    case UPDATE_PRODUCTS:
+      return getOrderedMapList(payload.data);
     default:
       return state;
   }
 }
-
-export const getProducts = page => (dispatch) => {
-  console.log(page);
-  let products;
-
-  axios.get(`/product/list?page=${page}`)
-    .then((response) => {
-      console.log(response.data);
-      products = response.data.data;
-
-      return dispatch({
-        type: GET_PRODUCTS,
-        payload: {
-          products,
-        },
-      });
-    });
-};
