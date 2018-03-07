@@ -11,13 +11,15 @@ const getOrderedMapList = arr => OrderedMap(arr.reduce((acc, product) => ({
 export const parseInitialState = (products, cart) => {
   const productsMap = getOrderedMapList(products);
 
-  return Object.keys(cart).reduce((updatedProducts, rowId) => (
+  const productsList = Object.keys(cart).reduce((updatedProducts, rowId) => (
     updatedProducts.update(`${cart[rowId].id}`, product => (
       product
         ? product.set('rowId', rowId).set('selected', true)
         : product
     ))
   ), productsMap);
+
+  return { products: productsList };
 };
 
 const SELECT_PRODUCT = 'playground/cart/SELECT_PRODUCT';
@@ -60,20 +62,23 @@ export const unselectProduct = (index, rowId) => async (dispatch) => {
   }
 };
 
-export default function cartReducer(state = OrderedMap({}), { type, payload }) {
+export default function cartReducer(state = { products: OrderedMap({}) }, { type, payload }) {
   switch (type) {
     case SELECT_PRODUCT:
-      return state.update(payload.index, product => product.set('selected', true));
+      return { products: state.products.update(payload.index, product => product.set('selected', true)) };
     case UNSELECT_PRODUCT:
-      return state.update(payload.index, product => product.set('selected', false));
+      return { products: state.products.update(payload.index, product => product.set('selected', false)) };
     case UPDATE_PRODUCTS:
-      return getOrderedMapList(payload.data);
+      return {
+        pagination: payload.pagination,
+        products: getOrderedMapList(payload.products),
+      };
     default:
       return state;
   }
 }
 
-export const productsSelector = state => state.valueSeq();
+export const productsSelector = state => state.products.valueSeq();
 export const selectedProductsSelector = createSelector(
   productsSelector,
   products => products.filter(product => product.get('selected')),

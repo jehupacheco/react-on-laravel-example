@@ -16,7 +16,11 @@ export const fetchProducts = page => async (dispatch) => {
     return dispatch({
       type: UPDATE_PRODUCTS,
       payload: {
-        data: response.data.data,
+        products: response.data.data,
+        pagination: {
+          currentPage: response.data.current_page,
+          totalProducts: response.data.total,
+        },
       },
     });
   } catch (err) {
@@ -24,10 +28,13 @@ export const fetchProducts = page => async (dispatch) => {
   }
 };
 
-export default function productsReducer(state = OrderedMap({}), { type, payload }) {
+export default function productsReducer(state = { products: OrderedMap({}) }, { type, payload }) {
   switch (type) {
     case UPDATE_PRODUCTS:
-      return getOrderedMapList(payload.data);
+      return {
+        pagination: payload.pagination,
+        products: getOrderedMapList(payload.products),
+      };
     default:
       return state;
   }

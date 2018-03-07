@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
@@ -39,39 +39,37 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-class Pagination extends Component {
-  getNumerOfPages = () => (this.getTotalOfProducts() / 10)
+const Pagination = ({ currentPage, totalProducts }) => {
+  const pages = totalProducts / 10;
 
-  getTotalOfProducts = () => (100)
-
-  render() {
-    const pagination = [...Array(this.getNumerOfPages())].map((item, index) => {
-      const page = index + 1;
-      const { currentPage } = this.props;
-
-      return (
-        <PaginationItem key={index} className={currentPage === page ? 'current' : ''} >
-          <StyledLink className={currentPage === page ? 'current' : ''} data-page={page} color={colors.grey} href="#" to={`/?page=${page}`}> {page} </StyledLink>
-        </PaginationItem>
-      );
-    });
+  const pagination = [...Array(pages)].map((item, index) => {
+    const page = index + 1;
+    const isCurrentPage = (currentPage === page) ? 'current' : '';
 
     return (
-      <div className="pagination">
-        <PaginationList>
-          {pagination}
-        </PaginationList>
-      </div>
+      <PaginationItem key={index} >
+        <StyledLink className={isCurrentPage} data-page={page} color={colors.grey} to={`/?page=${page}`}> {page} </StyledLink>
+      </PaginationItem>
     );
-  }
-}
+  });
+
+  return (
+    <div className="pagination">
+      <PaginationList>
+        {pagination}
+      </PaginationList>
+    </div>
+  );
+};
 
 Pagination.defaultProps = {
   currentPage: 0,
+  totalProducts: 100,
 };
 
 Pagination.propTypes = {
   currentPage: PropTypes.number,
+  totalProducts: PropTypes.number,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Pagination);

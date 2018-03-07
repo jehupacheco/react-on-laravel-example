@@ -9,11 +9,12 @@ import Product from './Product';
 import Pagination from './Pagination';
 
 const propTypes = {
-  data: ImmutablePropTypes.seq.isRequired,
+  products: ImmutablePropTypes.seq.isRequired,
   location: PropTypes.shape({
     search: PropTypes.string,
   }).isRequired,
   fetchData: PropTypes.func.isRequired,
+  pagination: PropTypes.shape(),
 };
 
 const ProductsContainer = styled.div`
@@ -26,9 +27,9 @@ const ProductsContainer = styled.div`
 
 let loadedPage = '1';
 
-
 const mapStateToProps = state => ({
-  data: productsSelector(state),
+  products: productsSelector(state),
+  pagination: state.pagination,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -51,22 +52,29 @@ class Products extends Component {
   getPage = query => query.substr(query.indexOf('=') + 1);
 
   render() {
-    const { data, location } = this.props;
+    const { products, pagination } = this.props;
 
     return (
       <div>
-        <h1>Products {this.getPage(location.search)}</h1>
+        <h1>Products - page {pagination.currentPage}</h1>
         <ProductsContainer>
-          {data.map(product => (
+          {products.map(product => (
             <Product key={product.id} product={product} />
           ))}
         </ProductsContainer>
-        <Pagination currentPage={+this.getPage(location.search)} />
+        <Pagination currentPage={pagination.currentPage} totalProducts={pagination.totalProducts} />
       </div>
     );
   }
 }
 
 Products.propTypes = propTypes;
+
+Products.defaultProps = {
+  pagination: {
+    current_page: 1,
+    total: 0,
+  },
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
