@@ -1,9 +1,6 @@
 @extends('base')
 
 @php
-    Debugbar::info($products);
-    Debugbar::info(Cart::content());
-
     $app = ReactRenderer::reactRenderComponentArray('products.index', [
         'props' => [
             'products' => $products,
